@@ -8,3 +8,5 @@ cookbooks:
 - database:
 - apps:
 - apps-database:
+- chef_handler:
+- minitest-handler:
