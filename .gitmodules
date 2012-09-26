@@ -1,0 +1,24 @@
+[submodule "chef-repo/cookbooks/database"]
+	path = chef-repo/cookbooks/database
+	url = git://github.com/opscode-cookbooks/database.git
+[submodule "chef-repo/cookbooks/aws"]
+	path = chef-repo/cookbooks/aws
+	url = git://github.com/opscode-cookbooks/aws.git
+[submodule "chef-repo/cookbooks/mysql"]
+	path = chef-repo/cookbooks/mysql
+	url = git://github.com/opscode-cookbooks/mysql.git
+[submodule "chef-repo/cookbooks/postgresql"]
+	path = chef-repo/cookbooks/postgresql
+	url = git://github.com/opscode-cookbooks/postgresql.git
+[submodule "chef-repo/cookbooks/xfs"]
+	path = chef-repo/cookbooks/xfs
+	url = git://github.com/opscode-cookbooks/xfs.git
+[submodule "chef-repo/cookbooks/openssl"]
+	path = chef-repo/cookbooks/openssl
+	url = git://github.com/opscode-cookbooks/openssl.git
+[submodule "chef-repo/cookbooks/build-essential"]
+	path = chef-repo/cookbooks/build-essential
+	url = git://github.com/opscode-cookbooks/build-essential.git
+[submodule "chef-repo/cookbooks/apps"]
+	path = chef-repo/cookbooks/apps
+	url = git://github.com/getaroom/chef-apps.git

@@ -1,0 +1,10 @@
+cookbooks:
+- aws:
+- build-essential:
+- openssl:
+- mysql:
+- postgresql:
+- xfs:
+- database:
+- apps:
+- apps-database:
