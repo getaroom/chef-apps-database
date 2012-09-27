@@ -11,7 +11,13 @@ cookbooks:
 - chef_handler:
 - minitest-handler:
 
+environments:
+- production:
+
+roles:
+- standalone:
+
 nodes:
 - ec2 1:
-  - recipe[minitest-handler] recipe[apps-database]
-  - --no-host-key-verify -x ubuntu -G default -I ami-3c994355 -f c1.medium -d chef-full --region us-east-1
+  - role[standalone]
+  - --no-host-key-verify -x ubuntu -G default -I ami-3c994355 -f c1.medium -d chef-full --region us-east-1 --environment production

@@ -8,6 +8,52 @@ Tested on Ubuntu 12.04
 
 Configures databases for apps.
 
+## master
+
+Setup databases and users from the apps data bag.
+
+# Example Data Bag Items
+
+## apps
+
+```json
+{
+  "id": "www",
+  "server_roles": ["www"],
+  "owner": "www",
+  "group": "www",
+  "deploy_to": "/srv/www",
+  "databases": {
+    "production": {
+      "adapter": "mysql2",
+      "database": "www_production",
+      "username": "www"
+    },
+    "staging": {
+      "adapter": "mysql2",
+      "database": "www_staging",
+      "username": "www"
+    }
+  }
+}
+```
+
+## apps_encrypted (shown unencrypted)
+
+```json
+{
+  "id": "www",
+  "databases": {
+    "production": {
+      "password": "secret"
+    },
+    "staging": {
+      "password": "secret"
+    }
+  }
+}
+```
+
 # License and Authors
 
 * Chris Griego (<cgriego@getaroom.com>)

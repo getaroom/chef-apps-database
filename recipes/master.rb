@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: apps-database
-# Recipe:: default
+# Recipe:: master
 #
 # Copyright 2012, getaroom
 #
@@ -24,4 +24,3 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-include_recipe "apps-database::master"
