@@ -28,8 +28,22 @@ search :apps do |app|
   app.fetch("databases", {}).each_pair do |environment, db|
     if environment.include? node['framework_environment']
       if (app.fetch("mysql_master_role", []) & node.run_list.roles).any?
+        connection_details = {
+          :host => "localhost",
+          :username => "root",
+          :password => node['mysql']['server_root_password'],
+        }
+
         mysql_database db['database'] do
-          connection :host => "localhost", :username => "root", :password => node['mysql']['server_root_password']
+          connection connection_details
+        end
+
+        ["%", "localhost", node['fqdn']].each do |mysql_host|
+          mysql_database_user db['username'] do
+            connection connection_details
+            password db['password']
+            host mysql_host
+          end
         end
       end
     end

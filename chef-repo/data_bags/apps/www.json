@@ -3,13 +3,19 @@
   "mysql_master_role": ["standalone"],
   "databases": {
     "production": {
-      "database": "www_production"
+      "database": "www_production",
+      "username": "www_production",
+      "password": "password"
     },
     "another_production_database": {
-      "database": "www_production_also"
+      "database": "www_production_also",
+      "username": "www_production",
+      "password": "password"
     },
     "staging": {
-      "database": "www_staging"
+      "database": "www_staging",
+      "username": "www_staging",
+      "password": "password"
     }
   }
 }
