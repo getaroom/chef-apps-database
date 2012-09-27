@@ -17,6 +17,10 @@ environments:
 roles:
 - standalone:
 
+data bags:
+- apps:
+  - www
+
 nodes:
 - ec2 1:
   - role[standalone]

@@ -6,16 +6,25 @@ describe_recipe "apps-database::master" do
   MiniTest::Chef::Resources.register_resource :mysql_database, :connection
 
   describe "production mysql server" do
-    let(:connection) { { :host => "localhost", :username => "root", :password => node['mysql']['server_root_password'] } }
+    def mysql_database_exists?(database_name)
+      resource = Chef::Resource::MysqlDatabase.new(database_name)
+      password = node['mysql']['server_root_password']
+      resource.connection({ :host => "localhost", :username => "root", :password => password })
+      provider = Chef::Provider::Database::Mysql.new(resource, nil)
+      provider.tap(&:load_current_resource).send(:exists?)
+    end
 
     describe "app which is served by this database master" do
-      describe "staging database" do
-        it "exists" do
-          resource = Chef::Resource::MysqlDatabase.new("www_staging")
-          resource.connection connection
-          provider = Chef::Provider::Database::Mysql.new(resource, nil)
-          refute provider.tap(&:load_current_resource).send(:exists?)
-        end
+      it "production database exists" do
+        assert mysql_database_exists?("www_production"), "www_production database does not exist"
+      end
+
+      it "another production database exists" do
+        assert mysql_database_exists?("www_production_also"), "www_production_also does not exist"
+      end
+
+      it "staging database does not exist" do
+        refute mysql_database_exists?("www_staging"), "www_staging exists"
       end
     end
   end

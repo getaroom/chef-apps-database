@@ -1,0 +1,14 @@
+{
+  "id": "www",
+  "databases": {
+    "production": {
+      "database": "www_production"
+    },
+    "another_production_database": {
+      "database": "www_production_also"
+    },
+    "staging": {
+      "database": "www_staging"
+    }
+  }
+}

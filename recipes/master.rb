@@ -24,3 +24,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+search :apps do |app|
+  app['databases'].each do |environment, db|
+    if environment.include? node['framework_environment']
+      mysql_database db['database'] do
+        connection :host => "localhost", :username => "root", :password => node['mysql']['server_root_password']
+      end
+    end
+  end
+end
