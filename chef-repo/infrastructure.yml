@@ -19,8 +19,9 @@ roles:
 
 data bags:
 - apps:
-  - www
+  - princess
   - toad
+  - www
 
 nodes:
 - ec2 1:

@@ -1,0 +1,9 @@
+{
+  "id": "princess",
+  "mysql_master_role": ["standalone_princess"],
+  "databases": {
+    "production": {
+      "database": "princess_production"
+    }
+  }
+}

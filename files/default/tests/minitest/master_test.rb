@@ -27,5 +27,11 @@ describe_recipe "apps-database::master" do
         refute mysql_database_exists?("www_staging"), "www_staging exists"
       end
     end
+
+    describe "app which is served by a different database master" do
+      it "production database does not exist" do
+        refute mysql_database_exists?("princess_production"), "princess_production exists"
+      end
+    end
   end
 end

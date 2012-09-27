@@ -1,5 +1,6 @@
 {
   "id": "www",
+  "mysql_master_role": ["standalone"],
   "databases": {
     "production": {
       "database": "www_production"

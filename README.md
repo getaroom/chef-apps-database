@@ -19,10 +19,11 @@ Setup databases and users from the apps data bag.
 ```json
 {
   "id": "www",
-  "server_roles": ["www"],
   "owner": "www",
   "group": "www",
   "deploy_to": "/srv/www",
+  "server_roles": ["www"],
+  "mysql_master_role": ["www"],
   "databases": {
     "production": {
       "adapter": "mysql2",
