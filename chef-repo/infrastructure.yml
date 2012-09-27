@@ -20,6 +20,7 @@ roles:
 data bags:
 - apps:
   - www
+  - toad
 
 nodes:
 - ec2 1:
