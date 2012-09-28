@@ -43,6 +43,8 @@ search :apps do |app|
             connection connection_details
             password db['password']
             host mysql_host
+            database_name db['database']
+            action :grant
           end
         end
       end
