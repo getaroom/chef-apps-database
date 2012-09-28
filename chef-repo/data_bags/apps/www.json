@@ -3,20 +3,30 @@
   "mysql_master_role": ["standalone"],
   "databases": {
     "production": {
+      "adapter": "mysql",
       "database": "www_production",
       "username": "www_production",
       "password": "password"
     },
     "another_production_database": {
+      "adapter": "mysql2",
       "database": "www_production_also",
       "username": "www_production",
       "password": "password"
     },
     "production_secret": {
+      "adapter": "mysql",
       "database": "www_prod_secret",
       "username": "www_prod_secret"
     },
+    "production_pg": {
+      "adapter": "postgresql",
+      "database": "www_prod_pg",
+      "username": "www_prod_pg",
+      "password": "password"
+    },
     "staging": {
+      "adapter": "mysql",
       "database": "www_staging",
       "username": "www_staging",
       "password": "password"

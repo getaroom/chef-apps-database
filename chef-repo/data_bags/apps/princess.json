@@ -3,7 +3,10 @@
   "mysql_master_role": ["standalone_princess"],
   "databases": {
     "production": {
-      "database": "princess_production"
+      "adapter": "mysql2",
+      "database": "princess_production",
+      "username": "princess",
+      "password": "password"
     }
   }
 }

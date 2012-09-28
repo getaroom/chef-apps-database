@@ -41,16 +41,20 @@ describe_recipe "apps-database::master" do
     end
 
     describe "app which is served by this database master" do
-      it "production database exists" do
+      it "production database exists using mysql adapter" do
         assert mysql_database_exists?("www_production"), "www_production database database does not exist"
       end
 
-      it "another production database exists" do
+      it "another production database exists using mysql2 adapter" do
         assert mysql_database_exists?("www_production_also"), "www_production_also database does not exist"
       end
 
       it "secret production database exists" do
         assert mysql_database_exists?("www_prod_secret"), "www_prod_secret database does not exist"
+      end
+
+      it "production database using postgresql adapter does not exist as a mysql database" do
+        refute mysql_database_exists?("www_prod_pg"), "www_prod_pg mysql database exists"
       end
 
       it "staging database does not exist" do
@@ -117,11 +121,27 @@ describe_recipe "apps-database::master" do
         assert_mysql_granted_all?("www_prod_secret", node['fqdn'], "www_prod_secret")
       end
 
-      it "staging user does not exist for localhost" do
-        refute mysql_user_exists?("www_staging", "localhost"), "www_staging user exists"
+      it "postgresql adapter mysql user does not exist for localhost" do
+        refute mysql_user_exists?("www_prod_pg", "localhost"), "www_prod_pg mysql user exists for localhost"
+      end
+
+      it "postgresql adapter mysql user does not exist for all hosts" do
+        refute mysql_user_exists?("www_prod_pg", "%"), "www_prod_pg mysql user exists for %"
+      end
+
+      it "postgresql adapter mysql user does not exist for the node fqdn" do
+        refute mysql_user_exists?("www_prod_pg", node['fqdn']), "www_prod_pg mysql user exists for #{node['fqdn']}"
       end
 
       it "staging user does not exist for localhost" do
+        refute mysql_user_exists?("www_staging", "localhost"), "www_staging user exists for localhost"
+      end
+
+      it "staging user does not exist for all hosts" do
+        refute mysql_user_exists?("www_staging", "%"), "www_staging user exists for %"
+      end
+
+      it "staging user does not exist for the node fqdn" do
         refute mysql_user_exists?("www_staging", node['fqdn']), "www_staging user exists for #{node['fqdn']}"
       end
     end
