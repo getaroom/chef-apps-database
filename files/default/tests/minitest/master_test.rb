@@ -53,6 +53,10 @@ describe_recipe "apps-database::master" do
         assert mysql_database_exists?("www_prod_secret"), "www_prod_secret database does not exist"
       end
 
+      it "production host-based database does not exist" do
+        refute mysql_database_exists?("www_prod_host"), "www_prod_host database exists"
+      end
+
       it "production database using postgresql adapter does not exist as a mysql database" do
         refute mysql_database_exists?("www_prod_pg"), "www_prod_pg mysql database exists"
       end
@@ -119,6 +123,18 @@ describe_recipe "apps-database::master" do
 
       it "secret production user for the node fqdn has access to the secret production database" do
         assert_mysql_granted_all?("www_prod_secret", node['fqdn'], "www_prod_secret")
+      end
+
+      it "user for a host-based database does not exist for localhost" do
+        refute mysql_user_exists?("www_prod_host", "localhost"), "www_prod_host user exists for localhost"
+      end
+
+      it "user for a host-based database does not exist for all hosts" do
+        refute mysql_user_exists?("www_prod_host", "%"), "www_prod_host user exists for %"
+      end
+
+      it "user for a host-based database does not exist for the node fqdn" do
+        refute mysql_user_exists?("www_prod_host", node['fqdn']), "www_prod_host user exists for #{node['fqdn']}"
       end
 
       it "postgresql adapter mysql user does not exist for localhost" do

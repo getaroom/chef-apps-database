@@ -13,24 +13,35 @@
       "adapter": "mysql",
       "database": "www_production",
       "username": "www_production",
-      "password": "password"
+      "password": "password",
+      "reconnect": true
     },
     "another_production_database": {
       "adapter": "mysql2",
       "database": "www_production_also",
       "username": "www_production",
-      "password": "password"
+      "password": "password",
+      "reconnect": true
     },
     "production_secret": {
       "adapter": "mysql",
       "database": "www_prod_secret",
-      "username": "www_prod_secret"
+      "username": "www_prod_secret",
+      "reconnect": true
+    },
+    "production_host": {
+      "adapter": "mysql",
+      "database": "www_prod_host",
+      "username": "www_prod_host",
+      "password": "www_prod_host",
+      "host": "127.0.0.1"
     },
     "production_pg": {
       "adapter": "postgresql",
       "database": "www_prod_pg",
       "username": "www_prod_pg",
-      "password": "password"
+      "password": "password",
+      "host": "127.0.0.1"
     },
     "staging": {
       "adapter": "mysql",

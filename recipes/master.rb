@@ -29,7 +29,7 @@ search :apps do |base_app|
   app = Chef::Mixin::DeepMerge.merge(base_app.to_hash, encrypted_app.to_hash)
 
   app.fetch("databases", {}).each_pair do |environment, db|
-    if environment.include?(node['framework_environment'])
+    if environment.include?(node['framework_environment']) && db.fetch("host", nil).nil?
       if db.fetch("adapter", "").include?("mysql") && (app.fetch("mysql_master_role", []) & node.run_list.roles).any?
         include_recipe "database::mysql"
 

@@ -24,13 +24,20 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-search :apps do |app|
+search :apps do |base_app|
+  encrypted_app = Chef::EncryptedDataBagItem.load("apps_encrypted", base_app['id']) rescue {}
+  app = Chef::Mixin::DeepMerge.merge(base_app.to_hash, encrypted_app.to_hash)
+
   if (app['server_roles'] & node.run_list.roles).any?
     if app.fetch("ingredients", {}).any? { |role, ingredients| node.run_list.roles.include?(role) && ingredients.include?("database.yml") }
-      file "#{app['deploy_to']}/shared/config/database.yml" do
+      template "#{app['deploy_to']}/shared/config/database.yml" do
         owner app['owner']
         group app['group']
         mode "660"
+        variables({
+          :databases => app.fetch("databases", {}).select { |environment, db| environment.include? node['framework_environment'] },
+          :host => node['cloud']['local_ipv4'],
+        })
       end
     end
   end
