@@ -5,7 +5,6 @@ run_list(
   "recipe[minitest-handler]",
   "recipe[mysql::server]",
   "recipe[apps-database::master]",
-  "recipe[database::mysql]",
 )
 
 override_attributes({
