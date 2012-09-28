@@ -1,0 +1,8 @@
+{
+  "id": "www",
+  "databases": {
+    "production_secret": {
+      "password": "secret"
+    }
+  }
+}

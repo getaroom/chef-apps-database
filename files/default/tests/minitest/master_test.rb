@@ -49,6 +49,10 @@ describe_recipe "apps-database::master" do
         assert mysql_database_exists?("www_production_also"), "www_production_also database does not exist"
       end
 
+      it "secret production database exists" do
+        assert mysql_database_exists?("www_prod_secret"), "www_prod_secret database does not exist"
+      end
+
       it "staging database does not exist" do
         refute mysql_database_exists?("www_staging"), "www_staging database exists"
       end
@@ -87,6 +91,30 @@ describe_recipe "apps-database::master" do
 
       it "production user for the node fqdn has access to another production database" do
         assert_mysql_granted_all?("www_production", node['fqdn'], "www_production_also")
+      end
+
+      it "secret production user exists for localhost" do
+        assert mysql_user_exists?("www_prod_secret", "localhost"), "www_prod_secret user does not exist for localhost"
+      end
+
+      it "secret production user exists for all hosts" do
+        assert mysql_user_exists?("www_prod_secret", "%"), "www_prod_secret user does not exist for %"
+      end
+
+      it "secret production user exists for the node fqdn" do
+        assert mysql_user_exists?("www_prod_secret", node['fqdn']), "www_prod_secret user does not exist for #{node['fqdn']}"
+      end
+
+      it "secret production user for localhost has access to the secret production database" do
+        assert_mysql_granted_all?("www_prod_secret", "localhost", "www_prod_secret")
+      end
+
+      it "secret production user for all hosts has access to the secret production database" do
+        assert_mysql_granted_all?("www_prod_secret", "%", "www_prod_secret")
+      end
+
+      it "secret production user for the node fqdn has access to the secret production database" do
+        assert_mysql_granted_all?("www_prod_secret", node['fqdn'], "www_prod_secret")
       end
 
       it "staging user does not exist for localhost" do

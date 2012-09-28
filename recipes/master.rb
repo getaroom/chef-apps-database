@@ -24,7 +24,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-search :apps do |app|
+search :apps do |base_app|
+  encrypted_app = Chef::EncryptedDataBagItem.load("apps_encrypted", base_app['id']) rescue {}
+  app = Chef::Mixin::DeepMerge.merge(base_app.to_hash, encrypted_app.to_hash)
+
   app.fetch("databases", {}).each_pair do |environment, db|
     if environment.include? node['framework_environment']
       if (app.fetch("mysql_master_role", []) & node.run_list.roles).any?

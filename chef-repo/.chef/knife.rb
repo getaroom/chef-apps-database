@@ -13,6 +13,8 @@ cache_type 'BasicFile'
 cache_options :path => "#{ENV['HOME']}/.chef/checksums"
 cookbook_path ["#{current_dir}/../cookbooks"]
 
+encrypted_data_bag_secret "#{current_dir}/../secret_file"
+
 knife[:aws_access_key_id] = ENV['AWS_ACCESS_KEY_ID']
 knife[:aws_secret_access_key] = ENV['AWS_SECRET_ACCESS_KEY']
 knife[:aws_ssh_key_id] = ENV['AWS_SSH_KEY_ID']

@@ -12,6 +12,10 @@
       "username": "www_production",
       "password": "password"
     },
+    "production_secret": {
+      "database": "www_prod_secret",
+      "username": "www_prod_secret"
+    },
     "staging": {
       "database": "www_staging",
       "username": "www_staging",

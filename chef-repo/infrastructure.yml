@@ -22,6 +22,9 @@ data bags:
   - princess
   - toad
   - www
+- apps_encrypted:
+  - secret secret_file
+  - www
 
 nodes:
 - ec2 1:
