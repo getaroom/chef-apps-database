@@ -1,6 +1,13 @@
 {
   "id": "www",
+  "owner": "www",
+  "group": "www",
+  "deploy_to": "/srv/www",
+  "server_roles": ["standalone"],
   "mysql_master_role": ["standalone"],
+  "ingredients": {
+    "standalone": ["database.yml"]
+  },
   "databases": {
     "production": {
       "adapter": "mysql",

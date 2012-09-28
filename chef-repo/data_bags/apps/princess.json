@@ -1,6 +1,13 @@
 {
   "id": "princess",
+  "owner": "princess",
+  "group": "princess",
+  "deploy_to": "/srv/princess",
+  "server_roles": ["standalone_princess"],
   "mysql_master_role": ["standalone_princess"],
+  "ingredients": {
+    "standalone_princess": ["database.yml"]
+  },
   "databases": {
     "production": {
       "adapter": "mysql2",

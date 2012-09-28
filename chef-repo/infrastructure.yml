@@ -25,6 +25,7 @@ data bags:
 - apps_encrypted:
   - secret secret_file
   - www
+- users:
 
 nodes:
 - ec2 1:

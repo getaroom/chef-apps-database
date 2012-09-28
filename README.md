@@ -12,6 +12,10 @@ Configures databases for apps.
 
 Setup databases and users from the apps data bag.
 
+## yaml
+
+Generates a database.yml file compatible with the activerecord gem.
+
 # Example Data Bag Items
 
 ## apps
@@ -24,6 +28,9 @@ Setup databases and users from the apps data bag.
   "deploy_to": "/srv/www",
   "server_roles": ["www"],
   "mysql_master_role": ["www"],
+  "ingredients": {
+    "www": ["database.yml"]
+  },
   "databases": {
     "production": {
       "adapter": "mysql2",

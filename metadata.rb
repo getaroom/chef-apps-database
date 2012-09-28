@@ -14,3 +14,4 @@ supports "ubuntu"
 
 recipe "apps-database", "Configures databases for apps."
 recipe "apps-database::master", "Setup databases and users from the apps data bag."
+recipe "apps-database::yaml", "Generates a database.yml file compatible with the activerecord gem."

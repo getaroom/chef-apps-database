@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: apps-database
-# Recipe:: default
+# Recipe:: yaml
 #
 # Copyright 2012, getaroom
 #
@@ -24,5 +24,14 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-include_recipe "apps-database::master"
-include_recipe "apps-database::yaml"
+search :apps do |app|
+  if (app['server_roles'] & node.run_list.roles).any?
+    if app.fetch("ingredients", {}).any? { |role, ingredients| node.run_list.roles.include?(role) && ingredients.include?("database.yml") }
+      file "#{app['deploy_to']}/shared/config/database.yml" do
+        owner app['owner']
+        group app['group']
+        mode "660"
+      end
+    end
+  end
+end
