@@ -1,12 +1,10 @@
-name "standalone"
-description "Standalone Server"
+name "mysql_master"
+description "MySQL Master"
 
 run_list(
   "recipe[minitest-handler]",
   "recipe[mysql::server]",
   "recipe[apps-database::master]",
-  "recipe[apps]",
-  "recipe[apps-database::yaml]",
 )
 
 override_attributes({

@@ -30,13 +30,22 @@ search :apps do |base_app|
 
   if (app['server_roles'] & node.run_list.roles).any?
     if app.fetch("ingredients", {}).any? { |role, ingredients| node.run_list.roles.include?(role) && ingredients.include?("database.yml") }
+      roles_clause = app['mysql_master_role'].map { |role| "role:#{role}" }.join(" OR ")
+
+      nodes = search(:node, "(#{roles_clause}) AND chef_environment:#{node.chef_environment}")
+      nodes << node if (app['mysql_master_role'] & node.run_list.roles).any? # node not indexed on first chef run
+
+      host = nodes.sort_by { |node| node.name }.reverse.map do |mysql_node|
+        mysql_node.attribute?("cloud") ? mysql_node['cloud']['local_ipv4'] : mysql_node['ipaddress']
+      end.uniq.first
+
       template "#{app['deploy_to']}/shared/config/database.yml" do
         owner app['owner']
         group app['group']
         mode "660"
         variables({
           :databases => app.fetch("databases", {}).select { |environment, db| environment.include? node['framework_environment'] },
-          :host => node['cloud']['local_ipv4'],
+          :host => host,
         })
       end
     end

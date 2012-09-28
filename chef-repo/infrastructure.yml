@@ -15,7 +15,8 @@ environments:
 - production:
 
 roles:
-- standalone:
+- client:
+- mysql_master:
 
 data bags:
 - apps:
@@ -29,5 +30,8 @@ data bags:
 
 nodes:
 - ec2 1:
-  - role[standalone]
+  - role[mysql_master]
+  - --no-host-key-verify -x ubuntu -G default -I ami-3c994355 -f c1.medium -d chef-full --region us-east-1 --environment production
+- ec2 1:
+  - role[client]
   - --no-host-key-verify -x ubuntu -G default -I ami-3c994355 -f c1.medium -d chef-full --region us-east-1 --environment production

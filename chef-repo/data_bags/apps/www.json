@@ -3,10 +3,10 @@
   "owner": "www",
   "group": "www",
   "deploy_to": "/srv/www",
-  "server_roles": ["standalone"],
-  "mysql_master_role": ["standalone"],
+  "server_roles": ["client"],
+  "mysql_master_role": ["mysql_master"],
   "ingredients": {
-    "standalone": ["database.yml"]
+    "client": ["database.yml"]
   },
   "databases": {
     "production": {

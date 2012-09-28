@@ -8,7 +8,11 @@ describe_recipe "apps-database::yaml" do
     let(:app_group) { group "www" }
     let(:yml) { file "/srv/www/shared/config/database.yml" }
     let(:stat) { File.stat(yml.path) }
-    let(:host) { node['cloud']['local_ipv4'] }
+
+    let :host do
+      nodes = Chef::Search::Query.new.search(:node, "role:mysql_master").first
+      nodes.sort_by(&:name).reverse.map { |node| node['cloud']['local_ipv4'] }.uniq.first
+    end
 
     it "exists" do
       yml.must_exist

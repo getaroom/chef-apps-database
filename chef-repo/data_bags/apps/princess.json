@@ -3,10 +3,10 @@
   "owner": "princess",
   "group": "princess",
   "deploy_to": "/srv/princess",
-  "server_roles": ["standalone_princess"],
-  "mysql_master_role": ["standalone_princess"],
+  "server_roles": ["princess"],
+  "mysql_master_role": ["princess"],
   "ingredients": {
-    "standalone_princess": ["database.yml"]
+    "princess": ["database.yml"]
   },
   "databases": {
     "production": {
