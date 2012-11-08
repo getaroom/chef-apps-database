@@ -14,6 +14,13 @@
       "database": "princess_production",
       "username": "princess",
       "password": "password"
+    },
+    "production_cross": {
+      "mysql_master_role": ["mysql_master"],
+      "adapter": "mysql2",
+      "database": "www_production",
+      "username": "princess_cross",
+      "password": "password"
     }
   }
 }

@@ -1,7 +1,0 @@
-<% @databases.each do |environment, db| %>
-<%= environment %>:
-  host: <%= db['host'] || @host %>
-  <% db.reject { |key, value| %w(host).include? key }.each do |key, value| %>
-  <%= key %>: <%= value.inspect %>
-  <% end %>
-<% end %>

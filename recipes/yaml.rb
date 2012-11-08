@@ -30,23 +30,30 @@ search :apps do |base_app|
 
   if (app['server_roles'] & node.run_list.roles).any?
     if app.fetch("ingredients", {}).any? { |role, ingredients| node.run_list.roles.include?(role) && ingredients.include?("database.yml") }
-      roles_clause = app['mysql_master_role'].map { |role| "role:#{role}" }.join(" OR ")
+      host_cache = {}
+      config = {}
 
-      nodes = search(:node, "(#{roles_clause}) AND chef_environment:#{node.chef_environment}")
-      nodes << node if (app['mysql_master_role'] & node.run_list.roles).any? # node not indexed on first chef run
+      app.fetch("databases", {}).select { |environment, db| environment.include? node['framework_environment'] }.each do |environment, db|
+        mysql_master_role = db.fetch("mysql_master_role", app.fetch("mysql_master_role", []))
+        roles_clause = mysql_master_role.map { |role| "role:#{role}" }.join(" OR ")
 
-      host = nodes.sort_by { |node| node.name }.reverse.map do |mysql_node|
-        mysql_node.attribute?("cloud") ? mysql_node['cloud']['local_ipv4'] : mysql_node['ipaddress']
-      end.uniq.first
+        host = db['host'] || host_cache[roles_clause] ||= begin
+          nodes = search(:node, "(#{roles_clause}) AND chef_environment:#{node.chef_environment}")
+          nodes << node if (mysql_master_role & node.run_list.roles).any? # node not indexed on first chef run
 
-      template "#{app['deploy_to']}/shared/config/database.yml" do
+          nodes.sort_by { |node| node.name }.reverse.map do |mysql_node|
+            mysql_node.attribute?("cloud") ? mysql_node['cloud']['local_ipv4'] : mysql_node['ipaddress']
+          end.uniq.first
+        end
+
+        config[environment] = db.to_hash.reject { |key, value| %w(host mysql_master_role).include? key }.merge("host" => host)
+      end
+
+      file "#{app['deploy_to']}/shared/config/database.yml" do
         owner app['owner']
         group app['group']
         mode "660"
-        variables({
-          :databases => app.fetch("databases", {}).select { |environment, db| environment.include? node['framework_environment'] },
-          :host => host,
-        })
+        content config.to_yaml
       end
     end
   end

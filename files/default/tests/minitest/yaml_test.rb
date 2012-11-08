@@ -41,6 +41,13 @@ describe_recipe "apps-database::yaml" do
           "host" => host,
           "reconnect" => true,
         },
+        "production_cross" => {
+          "adapter" => "mysql",
+          "database" => "princess_production",
+          "username" => "www_cross",
+          "password" => "password",
+          "host" => node['cloud']['local_ipv4'],
+        },
         "another_production_database" => {
           "adapter" => "mysql2",
           "database" => "www_production_also",
@@ -74,7 +81,11 @@ describe_recipe "apps-database::yaml" do
       }
 
       actual_yaml = YAML.load_file(yml.path)
-      assert_equal expected_yaml, actual_yaml
+      assert_equal expected_yaml.keys.sort, actual_yaml.keys.sort
+
+      expected_yaml.keys.each do |key|
+        assert_equal expected_yaml[key], actual_yaml[key]
+      end
     end
   end
 

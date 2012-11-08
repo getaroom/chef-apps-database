@@ -77,6 +77,18 @@ describe_recipe "apps-database::master" do
         assert mysql_user_exists?("www_production", node['fqdn']), "www_production user does not exist for #{node['fqdn']}"
       end
 
+      it "cross application production users exists for localhost" do
+        assert mysql_user_exists?("princess_cross", "localhost"), "princess_cross user does not exist for localhost"
+      end
+
+      it "cross application production users exists for all hosts" do
+        assert mysql_user_exists?("princess_cross", "%"), "princess_cross user does not exist for %"
+      end
+
+      it "cross application production users exists for the node fqdn" do
+        assert mysql_user_exists?("princess_cross", node['fqdn']), "princess_cross user does not exist for #{node['fqdn']}"
+      end
+
       it "production user for localhost has access to the production database" do
         assert_mysql_granted_all?("www_production", "localhost", "www_production")
       end
@@ -87,6 +99,18 @@ describe_recipe "apps-database::master" do
 
       it "production user for the node fqdn has access to the production database" do
         assert_mysql_granted_all?("www_production", node['fqdn'], "www_production")
+      end
+
+      it "cross application production user for localhost has access to the production database" do
+        assert_mysql_granted_all?("princess_cross", "localhost", "www_production")
+      end
+
+      it "cross application production user for all hosts has access to the production database" do
+        assert_mysql_granted_all?("princess_cross", "%", "www_production")
+      end
+
+      it "cross application production user for the node fqdn has access to the production database" do
+        assert_mysql_granted_all?("princess_cross", node['fqdn'], "www_production")
       end
 
       it "production user for localhost has access to another production database" do
@@ -165,6 +189,12 @@ describe_recipe "apps-database::master" do
     describe "app which is served by a different database master" do
       it "production database does not exist" do
         refute mysql_database_exists?("princess_production"), "princess_production exists"
+      end
+
+      it "cross application user does not exist" do
+        refute mysql_user_exists?("www_cross", "localhost"), "www_cross@localhost exists"
+        refute mysql_user_exists?("www_cross", "%"), "www_cross@% exists"
+        refute mysql_user_exists?("www_cross", node['fqdn']), "www_cross@#{node['fqdn']} exists"
       end
     end
   end
