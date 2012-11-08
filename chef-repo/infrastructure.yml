@@ -31,7 +31,7 @@ data bags:
 nodes:
 - ec2 1:
   - role[mysql_master]
-  - --no-host-key-verify -x ubuntu -G default -I ami-3c994355 -f c1.medium -d chef-full --region us-east-1 --environment production
+  - --no-host-key-verify -x ubuntu -G default -I ami-9a873ff3 -f c1.medium -d chef-full --region us-east-1 --environment production
 - ec2 1:
   - role[client]
-  - --no-host-key-verify -x ubuntu -G default -I ami-3c994355 -f c1.medium -d chef-full --region us-east-1 --environment production
+  - --no-host-key-verify -x ubuntu -G default -I ami-9a873ff3 -f c1.medium -d chef-full --region us-east-1 --environment production
