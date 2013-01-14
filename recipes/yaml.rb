@@ -24,8 +24,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+encrypted_apps = data_bag("apps_encrypted")
+
 search :apps do |base_app|
-  encrypted_app = Chef::EncryptedDataBagItem.load("apps_encrypted", base_app['id']) rescue {}
+  encrypted_app = encrypted_apps.include?(base_app['id']) ? Chef::EncryptedDataBagItem.load("apps_encrypted", base_app['id']) : {}
   app = Chef::Mixin::DeepMerge.merge(base_app.to_hash, encrypted_app.to_hash)
 
   if (app['server_roles'] & node.run_list.roles).any?
