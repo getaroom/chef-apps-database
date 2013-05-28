@@ -10,8 +10,8 @@ describe_recipe "apps-database::yaml" do
     let(:stat) { File.stat(yml.path) }
 
     let :host do
-      nodes = Chef::Search::Query.new.search(:node, "role:mysql_master").first
-      nodes.sort_by(&:name).reverse.map { |node| node['cloud']['local_ipv4'] }.uniq.first
+      nodes = Chef::Search::Query.new.search(:node, "mysql_server_priority:1").first
+      nodes.sort_by(&:name).map { |node| node['cloud']['local_ipv4'] }.uniq.first
     end
 
     it "exists" do

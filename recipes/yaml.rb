@@ -43,7 +43,7 @@ search :apps do |base_app|
           nodes = search(:node, "(#{roles_clause}) AND chef_environment:#{node.chef_environment}")
           nodes << node if (mysql_master_role & node.run_list.roles).any? # node not indexed on first chef run
 
-          nodes.sort_by { |node| node.name }.reverse.map do |mysql_node|
+          nodes.sort_by { |node| [node['mysql']['server']['priority'].to_i, node.name] }.reverse.map do |mysql_node|
             mysql_node.attribute?("cloud") ? mysql_node['cloud']['local_ipv4'] : mysql_node['ipaddress']
           end.uniq.first
         end
