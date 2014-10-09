@@ -49,7 +49,15 @@ search :apps do |base_app|
           end.uniq.first
         end
 
+        slave_in_zone = search(:node, "roles:#{base_app['id']}_mysql_slave AND chef_environment:#{node.chef_environment} AND ec2_placement_availability_zone:#{node['ec2']['placement_availability_zone']}").first
+        if slave_in_zone
+          slave_address = slave_in_zone.attribute?("cloud") ? slave_in_zone['cloud']['local_ipv4'] : slave_in_zone['ipaddress']
+        else
+          slave_address = host
+        end
+
         config[environment] = db.to_hash.reject { |key, value| %w(host mysql_master_role).include? key }.merge("host" => host)
+        config[environment].merge!("read_slave_host" => slave_address)
       end
 
       file "#{app['deploy_to']}/shared/config/database.yml" do
