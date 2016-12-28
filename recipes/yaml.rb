@@ -37,17 +37,13 @@ search :apps do |base_app|
   if (app['server_roles'] & node.run_list.roles).any?
     config = {}
     app.fetch("databases", {}).select { |environment, db| environment.include? node['framework_environment'] }.each do |environment, db|
-      host = if node['framework_environment'] == "production"
-               "#{dasherize base_app['id']}-mysql-master.getaroom.com"
-             else
-               "#{dasherize base_app['id']}-mysql-master.#{node.chef_environment}.testaroom.com"
-             end
-
       domain = if node['framework_environment'] == "production"
                  "getaroom.com"
                else
-                 "#{node['framework_environment']}.testaroom.com"
+                 "#{node.chef_environment}.testaroom.com"
                end
+
+      host = "#{dasherize base_app['id']}-mysql-master.#{domain}"
 
       slave_in_zone = search(:node, "tags:#{base_app['id']} AND tags:mysql_slave AND chef_environment:#{node.chef_environment} AND ec2_placement_availability_zone:#{node['ec2']['placement_availability_zone']}").first
 
