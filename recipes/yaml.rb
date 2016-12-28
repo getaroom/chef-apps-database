@@ -40,7 +40,7 @@ search :apps do |base_app|
       host = if node['framework_environment'] == "production"
                "#{dasherize base_app['id']}-mysql-master.getaroom.com"
              else
-               "#{dasherize base_app['id']}-mysql-master.#{node['framework_environment']}.testaroom.com"
+               "#{dasherize base_app['id']}-mysql-master.#{node.chef_environment}.testaroom.com"
              end
 
       domain = if node['framework_environment'] == "production"
